@@ -11,6 +11,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+                
                 sh "mvn clean install"
                 sh "mvn  test package spring-boot:repackage"
                 withSonarQubeEnv('SQ2'){
@@ -26,6 +27,12 @@ pipeline {
                  -Dsonar.jacoco.reportPath=target/coverage-reports/jacoco-unit.exec
                  
                  """
+                 sh """ java -cp D:/soft/checkStyle/checkstyle-8.11-all.jar\
+                 com.puppycrawl.tools.checkstyle.Main \
+                 -c docs/my_checks.xml\
+                 -f xml \
+                 -o target/checkstyle-result.xml src/
+                    """
                 }
             }
         }
