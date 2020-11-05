@@ -27,12 +27,8 @@ pipeline {
                  -Dsonar.jacoco.reportPath=target/coverage-reports/jacoco-unit.exec
                  
                  """
-                 sh """ java -cp D:/soft/checkStyle/checkstyle-8.11-all.jar\
-                 com.puppycrawl.tools.checkstyle.Main \
-                 -c docs/my_checks.xml\
-                 -f xml \
-                 -o target/checkstyle-result.xml src/
-                    """
+                 sh "mvn pmd:pmd"
+        
                 }
             }
         }
@@ -53,6 +49,7 @@ pipeline {
                     minimumLineCoverage:'0',
                     maximumLineCoverage: '61'
             )
+            pmd(canRunOnFailed: true, pattern:'**/target/pmd.xml')
 
         }
 
