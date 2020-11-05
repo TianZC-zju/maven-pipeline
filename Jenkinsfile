@@ -13,11 +13,8 @@ pipeline {
             steps {
                 sh "mvn clean install"
                 sh "mvn  test package spring-boot:repackage"
-
             }
-        }
-        stage('Code Analysis'){
-            step {
+            steps {
                 withSonarQubeEnv('SQ2'){
                 sh """
                  mvn  org.sonarsource.scanner.maven:sonar-maven-plugin:3.4.1.1168:sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_AUTH_TOKEN} -Dsonar.java.binaries=target/classes
